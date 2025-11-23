@@ -4,8 +4,8 @@ public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException() {
     }
 
-    public UserAlreadyExistsException(String message) {
-        super(message);
+    public UserAlreadyExistsException(String email) {
+        super("User with email: " + email + " is already registered.");
     }
 
     public UserAlreadyExistsException(String message, Throwable cause) {

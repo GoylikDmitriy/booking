@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponse register(RegisterUserRequest request) {
         if (userRepository.existsByEmail(request.email()))
-            throw new UserAlreadyExistsException("User with this email is already registered.");
+            throw new UserAlreadyExistsException(request.email());
 
         var user = new User();
         user.setEmail(request.email());
@@ -69,17 +69,11 @@ public class UserServiceImpl implements UserService {
 
     private User fetchUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() ->
-                        new UserNotFoundException(
-                                String.format("User with id = %d is not found.", id))
-                );
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private User fetchUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UserNotFoundException(
-                                String.format("User with email: %s is not found.", email))
-                );
+                .orElseThrow(() -> new UserNotFoundException(email));
     }
 }
